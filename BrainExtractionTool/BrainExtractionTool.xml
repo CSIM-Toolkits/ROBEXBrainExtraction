@@ -2,7 +2,7 @@
 <executable>
   <category>Segmentation</category>
   <title>Brain Extraction Tool</title>
-  <description><![CDATA[This CLI module aims to extract the brain from the skull. This tool was intensively tested with T1 MRI images, but the pipeline could be applied to any other structural MRI images, namely T2 and PD. This module is an adaptation of ROBEX brain extraction tool, given by Iglesias, J. E. et al (2011). "Robust Brain Extraction Across Datasets and Comparison With Publicly Available Methods". IEEE Transactions on Medical Imaging, 30(9), 1617-1634. DOI:10.1109/TMI.2011.2138152]]></description>
+  <description><![CDATA[This CLI module aims to extract the brain from the skull. This tool was intensively tested with T1 MRI images, but the pipeline could be applied to any other structural MRI images, namely T2 and PD. This module is an adaptation of ROBEX brain extraction tool, given by Iglesias, J. E. et al (2011). "Robust Brain Extraction Across Datasets and Comparison With Publicly Available Methods". IEEE Transactions on Medical Imaging, 30(9). DOI:10.1109/TMI.2011.2138152]]></description>
   <version>0.0.1</version>
   <documentation-url>https://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Modules/BrainExtractionTool</documentation-url>
   <license>Slicer</license>
