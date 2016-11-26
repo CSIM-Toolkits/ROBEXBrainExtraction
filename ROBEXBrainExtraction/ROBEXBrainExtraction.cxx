@@ -1,6 +1,6 @@
 #include "itkPluginUtilities.h"
 
-#include "BrainExtractionToolCLP.h"
+#include "ROBEXBrainExtractionCLP.h"
 
 
 #define DEBUG false  // set to true to see (print) how cost function evolves for registrations and bias field correction
