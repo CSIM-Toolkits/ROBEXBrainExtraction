@@ -2,7 +2,7 @@
 <executable>
   <category>Segmentation</category>
   <title>ROBEX Brain Extraction</title>
-  <description><![CDATA[This CLI module aims to extract the brain from the skull. This tool was intensively tested with T1 MRI images, but the pipeline could be applied to any other structural MRI images, namely T2 and PD. This module is an adaptation of ROBEX brain extraction tool, given by Iglesias, J. E. et al (2011). "Robust Brain Extraction Across Datasets and Comparison With Publicly Available Methods". IEEE Transactions on Medical Imaging, 30(9). DOI:10.1109/TMI.2011.2138152. Please, note that this code is under the licenses listed in the ROBEXBrainExtraction module code repository, according to the original ROBEX method (https://www.nitrc.org/projects/robex/).]]></description>
+  <description><![CDATA[This CLI module aims to extract the brain from the skull. This tool was intensively tested with T1 MRI images, but the pipeline could be applied to any other structural MRI images, namely T2 and PD. This module is an adaptation of ROBEX brain extraction tool, given by Iglesias, J. E. et al (2011). "Robust Brain Extraction Across Datasets and Comparison With Publicly Available Methods". IEEE Transactions on Medical Imaging, 30(9). DOI:10.1109/TMI.2011.2138152. Please, note that this code is under the licenses listed in the ROBEXBrainExtraction code repository, according to the original ROBEX method (https://www.nitrc.org/projects/robex/).]]></description>
   <version>0.0.1</version>
   <documentation-url>https://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Modules/ROBEXBrainExtraction</documentation-url>
   <license>Slicer, BSD, Apache 2.0, GPL v3.0, LGPL v3.0</license>
