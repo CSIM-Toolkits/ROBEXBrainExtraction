@@ -274,7 +274,6 @@ namespace
 template <class T>
 int DoIt( int argc, char * argv[], T )
 {
-
 #ifdef _WIN32
     char* HOME_DIR=getenv("HOMEPATH");
 #else
@@ -1926,12 +1925,12 @@ int DoIt( int argc, char * argv[], T )
     finalWriter->Update();
 
 
-    if(true){
-        MaskWriterType::Pointer mw =  MaskWriterType::New();
-        mw->SetInput(maskResample->GetOutput());
-        mw->SetFileName(binaryMask.c_str());
-        mw->Update();
-    }
+//    if(binaryMask!=""){
+//        MaskWriterType::Pointer mw =  MaskWriterType::New();
+//        mw->SetInput(maskResample->GetOutput());
+//        mw->SetFileName(binaryMask.c_str());
+//        mw->Update();
+//    }
 
     printf("Done! It took roughly %d seconds\n",(int)(time(NULL)-t_ini_step));
     std::cout << std::flush;
