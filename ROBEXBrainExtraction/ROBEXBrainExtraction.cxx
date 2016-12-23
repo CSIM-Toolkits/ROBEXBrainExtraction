@@ -119,9 +119,9 @@ using namespace std;
 #include "aux_methods.h"
 #include "loadModel.h"
 #include "RobustStrip.h"
-#include <cstdlib>
-#include <string>
-#include <unistd.h>
+//#include <cstdlib>
+//#include <string>
+//#include <unistd.h>
 
 
 // Observer for the registration
@@ -1925,12 +1925,12 @@ int DoIt( int argc, char * argv[], T )
     finalWriter->Update();
 
 
-//    if(binaryMask!=""){
-//        MaskWriterType::Pointer mw =  MaskWriterType::New();
-//        mw->SetInput(maskResample->GetOutput());
-//        mw->SetFileName(binaryMask.c_str());
-//        mw->Update();
-//    }
+    if(brainMask!=""){
+        MaskWriterType::Pointer mw =  MaskWriterType::New();
+        mw->SetInput(maskResample->GetOutput());
+        mw->SetFileName(brainMask.c_str());
+        mw->Update();
+    }
 
     printf("Done! It took roughly %d seconds\n",(int)(time(NULL)-t_ini_step));
     std::cout << std::flush;

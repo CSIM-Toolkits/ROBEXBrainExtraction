@@ -25,5 +25,12 @@
       <index>1</index>
       <description><![CDATA[Output Volume]]></description>
     </image>
+    <image type="label">
+      <longflag>--mask</longflag>
+      <name>brainMask</name>
+      <label>Brain Mask</label>
+      <channel>output</channel>
+      <description><![CDATA[Output Volume]]></description>
+    </image>
   </parameters>
 </executable>
