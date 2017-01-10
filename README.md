@@ -1,6 +1,6 @@
 # ROBEX Brain Extraction
 
-3D Slicer extension to offer a brain extraction algorithm for MRI structural images. This extension has the ROBEX brain extraction implementation which was adapted from the [original paper](http://dx.doi.org/10.1109/TMI.2011.2138152).
+A 3D Slicer extension offering a brain extraction algorithm for MRI structural images. This extension has the ROBEX brain extraction implementation which was adapted from the [original paper](http://dx.doi.org/10.1109/TMI.2011.2138152).
 
 # Licenses
 
