@@ -1,31 +1,11 @@
 #include "itkPluginUtilities.h"
 
-#include "ROBEXBrainExtractionCLP.h"
+#include "ROBEXBrainExtractionCoreCLP.h"
 
 
 #define DEBUG false  // set to true to see (print) how cost function evolves for registrations and bias field correction
 
-#ifdef _WIN32
-#define ATLASFILENAME "\\ROBEX-data\\ref_vols\\atlas.nii.gz"
-#define MASKFILENAME "\\ROBEX-data\\ref_vols\\atlas_mask.nii.gz"
-#define ERODEDMASKFILENAME "\\ROBEX-data\\ref_vols\\atlas_mask_eroded.nii.gz"
-#define DILATEDMASKFILENAME "\\ROBEX-data\\ref_vols\\atlas_mask_dilated.nii.gz"
-#define INITIALMASKFILENAME "\\ROBEX-data\\ref_vols\\Mini.nii.gz"
-#define PATH_SEPARATOR "\\"
-#define PATH_SEPARATOR_CHAR '\\'
-#define DEL_CMD "del /Q "
-#define MOVE_CMD "move "
-#else
-#define ATLASFILENAME "/ROBEX-data/ref_vols/atlas.nii.gz"
-#define MASKFILENAME "/ROBEX-data/ref_vols/atlas_mask.nii.gz"
-#define ERODEDMASKFILENAME "/ROBEX-data/ref_vols/atlas_mask_eroded.nii.gz"
-#define DILATEDMASKFILENAME "/ROBEX-data/ref_vols/atlas_mask_dilated.nii.gz"
-#define INITIALMASKFILENAME "/ROBEX-data/ref_vols/Mini.nii.gz"
-#define PATH_SEPARATOR "/"
-#define PATH_SEPARATOR_CHAR '/'
-#define DEL_CMD "rm -f "
-#define MOVE_CMD "mv "
-#endif
+
 
 
 
@@ -120,7 +100,7 @@ using namespace std;
 #include "loadModel.h"
 #include "RobustStrip.h"
 //#include <cstdlib>
-//#include <string>
+#include <string>
 //#include <unistd.h>
 
 
@@ -274,13 +254,30 @@ namespace
 template <class T>
 int DoIt( int argc, char * argv[], T )
 {
+    PARSE_ARGS;
+
 #ifdef _WIN32
-    char* HOME_DIR=getenv("HOMEPATH");
+#define ATLASFILENAME "\\atlas.nii.gz"
+#define MASKFILENAME "\\atlas_mask.nii.gz"
+#define ERODEDMASKFILENAME "\\atlas_mask_eroded.nii.gz"
+#define DILATEDMASKFILENAME "\\atlas_mask_dilated.nii.gz"
+#define INITIALMASKFILENAME "\\Mini.nii.gz"
+#define PATH_SEPARATOR "\\"
+#define PATH_SEPARATOR_CHAR '\\'
+#define DEL_CMD "del /Q "
+#define MOVE_CMD "move "
 #else
-    char* HOME_DIR=getenv("HOME");
+#define ATLASFILENAME "/atlas.nii.gz"
+#define MASKFILENAME "/atlas_mask.nii.gz"
+#define ERODEDMASKFILENAME "/atlas_mask_eroded.nii.gz"
+#define DILATEDMASKFILENAME "/atlas_mask_dilated.nii.gz"
+#define INITIALMASKFILENAME "/Mini.nii.gz"
+#define PATH_SEPARATOR "/"
+#define PATH_SEPARATOR_CHAR '/'
+#define DEL_CMD "rm -f "
+#define MOVE_CMD "mv "
 #endif
 
-    PARSE_ARGS;
     typedef  float      PixelType;
     typedef  unsigned char      MaskPixelType;
     const   unsigned int   Dimension = 3;
@@ -383,27 +380,27 @@ int DoIt( int argc, char * argv[], T )
     readerI->Update();
     ReaderType::Pointer readerAtlas = ReaderType::New();
     stringstream ATLAS_path;
-    ATLAS_path<<HOME_DIR<<ATLASFILENAME;
+    ATLAS_path<<refVolsPath<<ATLASFILENAME;
     readerAtlas->SetFileName( ATLAS_path.str().c_str() );
     readerAtlas->Update();
     MaskReaderType::Pointer readerM = MaskReaderType::New();
     stringstream MASK_path;
-    MASK_path<<HOME_DIR<<MASKFILENAME;
+    MASK_path<<refVolsPath<<MASKFILENAME;
     readerM->SetFileName( MASK_path.str().c_str()  );
     readerM->Update();
     MaskReaderType::Pointer readerMe = MaskReaderType::New();
     stringstream ERODE_path;
-    ERODE_path<<HOME_DIR<<ERODEDMASKFILENAME;
+    ERODE_path<<refVolsPath<<ERODEDMASKFILENAME;
     readerMe->SetFileName( ERODE_path.str().c_str()  );
     readerMe->Update();
     MaskReaderType::Pointer readerMd = MaskReaderType::New();
     stringstream DILATE_path;
-    DILATE_path<<HOME_DIR<<DILATEDMASKFILENAME;
+    DILATE_path<<refVolsPath<<DILATEDMASKFILENAME;
     readerMd->SetFileName( DILATE_path.str().c_str()  );
     readerMd->Update();
     MaskReaderType::Pointer readerMini = MaskReaderType::New();
     stringstream INIT_path;
-    INIT_path<<HOME_DIR<<INITIALMASKFILENAME;
+    INIT_path<<refVolsPath<<INITIALMASKFILENAME;
     readerMini->SetFileName( INIT_path.str().c_str()  );
     readerMini->Update();
 
@@ -1006,11 +1003,11 @@ int DoIt( int argc, char * argv[], T )
 
 
     // Load forest
-    int *nodestatus=load_nodestatus();
-    int *bestvar=load_bestvar();
-    double *xbestsplit=load_xbestsplit();
-    int *nodeclass=load_nodeclass();
-    int *treemap=load_treemap();
+    int *nodestatus=load_nodestatus(datPath);
+    int *bestvar=load_bestvar(datPath);
+    double *xbestsplit=load_xbestsplit(datPath);
+    int *nodeclass=load_nodeclass(datPath);
+    int *treemap=load_treemap(datPath);
     double *votes=(double *)malloc(MINI_PIXS*sizeof(double));
     int ntrees=load_ntree();
     int nrnodes=load_nrnodes();
@@ -1157,13 +1154,13 @@ int DoIt( int argc, char * argv[], T )
         ++RIt; ++CIt;
     }
 
-    double *lambda_v=load_lambda();  vnl_vector<double> lambda(lambda_v,N_MODES);
-    double *lambda2_v=load_lambda2(); vnl_vector<double> lambda2(lambda2_v,N_MODES);
-    double *mean_normals_v=load_mean_normals();   vnl_vector<double> mean_normals(mean_normals_v,3*NL);
-    double *mu_v = load_mu(); vnl_vector<double> mu(mu_v,3*NL);
-    double *PHI_v = load_PHI(); vnl_matrix<double> PHI(PHI_v,NL*3,N_MODES);
-    double *PHI2_v = load_PHI2(); vnl_matrix<double> PHI2(PHI2_v,NL*3,N_MODES);
-    double *face_v = load_face(); vnl_matrix<double> face(face_v,N_FACES,3);
+    double *lambda_v=load_lambda(datPath);  vnl_vector<double> lambda(lambda_v,N_MODES);
+    double *lambda2_v=load_lambda2(datPath); vnl_vector<double> lambda2(lambda2_v,N_MODES);
+    double *mean_normals_v=load_mean_normals(datPath);   vnl_vector<double> mean_normals(mean_normals_v,3*NL);
+    double *mu_v = load_mu(datPath); vnl_vector<double> mu(mu_v,3*NL);
+    double *PHI_v = load_PHI(datPath); vnl_matrix<double> PHI(PHI_v,NL*3,N_MODES);
+    double *PHI2_v = load_PHI2(datPath); vnl_matrix<double> PHI2(PHI2_v,NL*3,N_MODES);
+    double *face_v = load_face(datPath); vnl_matrix<double> face(face_v,N_FACES,3);
 
     vnl_vector<double> best_contour=mu;
     vnl_vector<double> contour=mu;
@@ -1503,7 +1500,7 @@ int DoIt( int argc, char * argv[], T )
     double *prA = NULL;
     int *irA = NULL;
     int *jcA = NULL;
-    int nzels=load_EDGES(&prA,&irA,&jcA);
+    int nzels=load_EDGES(&prA,&irA,&jcA,datPath);
 
 
     double *prT = (double *) malloc(NL*PL*sizeof(double));

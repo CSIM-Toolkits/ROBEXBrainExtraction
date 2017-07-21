@@ -20,14 +20,7 @@ int load_ntree(){
 }
 
 
-double * load_xbestsplit(){
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+double * load_xbestsplit(std::string DAT_PATH){
 
     double * p = (double *) malloc((MAX_R*load_ntree())*sizeof(double));
     if(p==NULL){
@@ -35,9 +28,7 @@ double * load_xbestsplit(){
         exit(1);
     }
     FILE *fp;
-    stringstream all_DAT_DIR;
-    all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-    char filename[2000]; sprintf(filename,"%sxbestsplit.dat",all_DAT_DIR.str().c_str());
+    char filename[2000]; sprintf(filename,"%sxbestsplit.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {
         fprintf(stdout,"Cannot open a necessary .dat file\n");
         exit( 1 );
@@ -46,7 +37,7 @@ double * load_xbestsplit(){
     size_t result = fread (p,sizeof(double),(MAX_R*load_ntree()),fp);
     if (result != (MAX_R*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-    sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+    sprintf(filename,"%s256.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
     int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
     if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -85,14 +76,8 @@ double *load_cutoff(){
 }
 
 
-int *load_treemap(){ 
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+int *load_treemap(std::string DAT_PATH){
+
     int *  p = NULL;
     if(2*MAX_R<load_nrnodes()){
         p = (int *) malloc((4*MAX_R*load_ntree())*sizeof(int));
@@ -101,9 +86,7 @@ int *load_treemap(){
             exit(1);
         }
         FILE *fp;
-        stringstream all_DAT_DIR;
-        all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-        char filename[2000]; sprintf(filename,"%streemap.dat",all_DAT_DIR.str().c_str());
+        char filename[2000]; sprintf(filename,"%streemap.dat",DAT_PATH.c_str());
         if( ( fp = fopen( filename, "rb")) == NULL) {
             fprintf(stdout,"Cannot open a necessary .dat file\n");
             exit( 1 );
@@ -112,7 +95,7 @@ int *load_treemap(){
         size_t result = fread (p,sizeof(int),(4*MAX_R*load_ntree()),fp);
         if (result != (4*MAX_R*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-        sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+        sprintf(filename,"%s256.dat",DAT_PATH.c_str());
         if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
         int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
         if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -130,9 +113,7 @@ int *load_treemap(){
             exit(1);
         }
         FILE *fp;
-        stringstream all_DAT_DIR;
-        all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-        char filename[2000]; sprintf(filename,"%streemap.dat",all_DAT_DIR.str().c_str());
+        char filename[2000]; sprintf(filename,"%streemap.dat",DAT_PATH.c_str());
         if( ( fp = fopen( filename, "rb")) == NULL) {
             fprintf(stdout,"Cannot open a necessary .dat file\n");
             exit( 1 );
@@ -141,7 +122,7 @@ int *load_treemap(){
         size_t result = fread (p,sizeof(int),(load_nrnodes()*2*load_ntree()),fp);
         if (result != (load_nrnodes()*2*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-        sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+        sprintf(filename,"%s256.dat",DAT_PATH.c_str());
         if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
         int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
         if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -156,23 +137,14 @@ int *load_treemap(){
 }
 
 
-int *load_nodestatus(){ 
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+int *load_nodestatus(std::string DAT_PATH){
     int * p = (int *) malloc((MAX_R*load_ntree())*sizeof(int));
     if(p==NULL){
         fprintf(stderr,"Insufficient memory available\n");
         exit(1);
     }
     FILE *fp;
-    stringstream all_DAT_DIR;
-    all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-    char filename[2000]; sprintf(filename,"%snodestatus.dat",all_DAT_DIR.str().c_str());
+    char filename[2000]; sprintf(filename,"%snodestatus.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {
         fprintf(stdout,"Cannot open a necessary .dat file\n");
         exit( 1 );
@@ -181,7 +153,7 @@ int *load_nodestatus(){
     size_t result = fread (p,sizeof(int),(MAX_R*load_ntree()),fp);
     if (result != (MAX_R*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-    sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+    sprintf(filename,"%s256.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
     int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
     if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -196,23 +168,14 @@ int *load_nodestatus(){
 }
 
 
-int *load_nodeclass(){ 
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+int *load_nodeclass(std::string DAT_PATH){
     int * p = (int *) malloc((MAX_R*load_ntree())*sizeof(int));
     if(p==NULL){
         fprintf(stderr,"Insufficient memory available\n");
         exit(1);
     }
     FILE *fp;
-    stringstream all_DAT_DIR;
-    all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-    char filename[2000]; sprintf(filename,"%snodeclass.dat",all_DAT_DIR.str().c_str());
+    char filename[2000]; sprintf(filename,"%snodeclass.dat",DAT_PATH.c_str());
     if( ( fp = fopen(filename, "rb")) == NULL) {
         fprintf(stdout,"Cannot open a necessary .dat file\n");
         exit( 1 );
@@ -221,7 +184,7 @@ int *load_nodeclass(){
     size_t result = fread (p,sizeof(int),(MAX_R*load_ntree()),fp);
     if (result != (MAX_R*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-    sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+    sprintf(filename,"%s256.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
     int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
     if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -236,23 +199,14 @@ int *load_nodeclass(){
 }
 
 
-int *load_bestvar(){ 
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+int *load_bestvar(std::string DAT_PATH){
     int * p = (int *) malloc((MAX_R*load_ntree())*sizeof(int));
     if(p==NULL){
         fprintf(stderr,"Insufficient memory available\n");
         exit(1);
     }
     FILE *fp;
-    stringstream all_DAT_DIR;
-    all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-    char filename[2000]; sprintf(filename,"%sbestvar.dat",all_DAT_DIR.str().c_str());
+    char filename[2000]; sprintf(filename,"%sbestvar.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {
         fprintf(stdout,"Cannot open a necessary .dat file\n");
         exit( 1 );
@@ -261,7 +215,7 @@ int *load_bestvar(){
     size_t result = fread (p,sizeof(int),(MAX_R*load_ntree()),fp);
     if (result != (MAX_R*load_ntree())) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-    sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+    sprintf(filename,"%s256.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
     int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
     if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}
@@ -276,23 +230,14 @@ int *load_bestvar(){
 }
 
 
-int *load_ndbigtree(){ 
-#ifdef _WIN32
-#define DAT_DIR "\\ROBEX-data\\dat\\"
-    char* HOME_DIR=getenv("HOMEPATH");
-#else
-#define DAT_DIR "/ROBEX-data/dat/"
-    char* HOME_DIR=getenv("HOME");
-#endif
+int *load_ndbigtree(std::string DAT_PATH){
     int * p = (int *) malloc(load_ntree()*sizeof(int));
     if(p==NULL){
         fprintf(stderr,"Insufficient memory available\n");
         exit(1);
     }
     FILE *fp;
-    stringstream all_DAT_DIR;
-    all_DAT_DIR<<HOME_DIR<<DAT_DIR;
-    char filename[2000]; sprintf(filename,"%sndbigtree.dat",all_DAT_DIR.str().c_str());
+    char filename[2000]; sprintf(filename,"%sndbigtree.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {
         fprintf(stdout,"Cannot open a necessary .dat file\n");
         exit( 1 );
@@ -301,7 +246,7 @@ int *load_ndbigtree(){
     size_t result = fread (p,sizeof(int),load_ntree(),fp);
     if (result != load_ntree()) {fprintf(stdout,"Reading error\n"); exit (1);}
 
-    sprintf(filename,"%s256.dat",all_DAT_DIR.str().c_str());
+    sprintf(filename,"%s256.dat",DAT_PATH.c_str());
     if( ( fp = fopen( filename, "rb")) == NULL) {fprintf(stdout,"Cannot open a necessary .dat file\n"); exit( 1 );}
     int twoFiftySix=0;	result = fread (&twoFiftySix,sizeof(int),1,fp);
     if (result != 1) {fprintf(stdout,"Reading error\n"); exit (1);}

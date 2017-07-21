@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <executable>
-  <category>Segmentation</category>
-  <title>ROBEX Brain Extraction</title>
+  <category>Utilities.CSIM Supporting Modules.ROBEX Brain Extraction</category>
+  <title>ROBEX Brain Extraction Core</title>
   <description><![CDATA[This CLI module aims to extract the brain from the skull. This tool was intensively tested with T1 MRI images, but the pipeline could be applied to any other structural MRI images, namely T2 and PD. This module is an adaptation of ROBEX brain extraction tool, given by Iglesias, J. E. et al (2011). "Robust Brain Extraction Across Datasets and Comparison With Publicly Available Methods". IEEE Transactions on Medical Imaging, 30(9). DOI:10.1109/TMI.2011.2138152. Please, note that this code is under the licenses listed in the ROBEXBrainExtraction code repository, according to the original ROBEX method (https://www.nitrc.org/projects/robex/).]]></description>
   <version>0.0.1</version>
   <documentation-url>https://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Modules/ROBEXBrainExtraction</documentation-url>
@@ -33,4 +33,17 @@
       <description><![CDATA[Output Volume]]></description>
     </image>
   </parameters>
+  <parameters>
+    <label>Parameters Settings</label>
+    <directory>
+      <name>datPath</name>
+      <label>Dat Folder Path</label>
+      <index>2</index>
+    </directory>
+    <directory>
+      <name>refVolsPath</name>
+      <label>Ref Vols Folder Path</label>
+      <index>3</index>
+    </directory>
+</parameters>
 </executable>

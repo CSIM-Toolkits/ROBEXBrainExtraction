@@ -18,6 +18,7 @@ include(${Slicer_USE_FILE})
 
 #-----------------------------------------------------------------------------
 # Extension modules
+add_subdirectory(ROBEXBrainExtractionCore)
 add_subdirectory(ROBEXBrainExtraction)
 ## NEXT_MODULE
 
