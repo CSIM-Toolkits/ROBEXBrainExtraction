@@ -203,7 +203,7 @@ class ROBEXBrainExtractionLogic(ScriptedLoadableModuleLogic):
     cliParams["outputVolume"] = outputVolume.GetID()
     if brainmask is not None:
       cliParams["brainMask"] = brainmask.GetID()
-    if platform.system() is "Windows":
+    if platform.system() == "Windows":
       cliParams["datPath"] = path2files + '\\Resources\\dat\\'
       cliParams["refVolsPath"] = path2files + '\\Resources\\ref_vols'
     else:
@@ -260,10 +260,10 @@ class ROBEXBrainExtractionTest(ScriptedLoadableModuleTest):
     for url,name,loader in downloads:
       filePath = slicer.app.temporaryPath + '/' + name
       if not os.path.exists(filePath) or os.stat(filePath).st_size == 0:
-        logging.info('Requesting download %s from %s...\n' % (name, url))
+        logging.info(f'Requesting download {name} from {url}...\n')
         urllib.urlretrieve(url, filePath)
       if loader:
-        logging.info('Loading %s...' % (name,))
+        logging.info(f'Loading {name}...')
         loader(filePath)
     self.delayDisplay('Finished with download and loading')
 
